@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%=title%></title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <header>
+      <div>
+        <a onclick="window.location.href='/'">IMZ.AI</a>
+      </div>
+      <div>
+        <button onclick="window.location.href='/products'">Home</button>
+        <button onclick="window.location.href='/products/create'">Create</button>
+      </div>
+    </header>
+    <main>
+      <div id="product">
+        <%products.forEach(item=>{%>
+        <div class="itemProduct">
+          <div><img src="<%=item.image%>" alt="<%=item.name%>" /></div>
+          <div>
+            <h2><%=item.name%></h2>
+            <p><%=item.price%></p>
+          </div>
+        </div>
+        <%})%>
+      </div>
+    </main>
+    <footer></footer>
+  </body>
+</html>

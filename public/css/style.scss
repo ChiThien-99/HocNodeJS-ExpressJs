@@ -1,0 +1,91 @@
+$colorCTA: #027e1f;
+$colorPrimaryBG: #fafafa;
+$colorSecondaryBG: #027e1fad;
+$colorPrimaryText: #1a1a1a;
+$colorSecondaryText: #fafafa;
+* {
+  box-sizing: border-box;
+}
+body {
+  background-color: $colorPrimaryBG;
+  color: #1a1a1a;
+  font-family: "Roboto", sans-serif;
+}
+header {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  border: none;
+  height: 100px;
+  div:first-child {
+    border: inherit;
+    a {
+      color: $colorCTA;
+      font-size: 60px;
+      font-weight: bold;
+      text-decoration: none;
+      letter-spacing: 5px;
+      cursor: pointer;
+    }
+  }
+  div:last-child {
+    border: inherit;
+    button {
+      background-color: $colorCTA;
+      color: $colorSecondaryText;
+      font-weight: bold;
+      font-size: 15px;
+      padding: 15px;
+      margin: 10px;
+      border: inherit;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  }
+}
+main {
+  border: none;
+  #product {
+    border: inherit;
+    .itemProduct {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      cursor: pointer;
+      width: 50%;
+      margin: 20px auto;
+      padding: 20px;
+      border: inherit;
+      border-radius: 5px;
+      background-color: $colorSecondaryBG;
+      img {
+        width: 100px;
+        height: 100px;
+      }
+      div:last-child {
+        width: 40%;
+        text-align: left;
+      }
+    }
+  }
+  #formCreateProduct {
+    div {
+      width: 50%;
+      margin: auto;
+      input[type="text"] {
+        width: 100%;
+        height: 50px;
+        font-size: 20px;
+        margin: 10px 0;
+      }
+      button {
+        padding: 20px;
+        font-size: 20px;
+        background-color: $colorCTA;
+        color: $colorSecondaryText;
+        border: none;
+        cursor: pointer;
+      }
+    }
+  }
+}

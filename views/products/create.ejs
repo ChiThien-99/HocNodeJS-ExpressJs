@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tạo sản phẩm</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <header>
+      <div>
+        <a onclick="window.location.href = '/'">IMZ.AI</a>
+      </div>
+      <div>
+        <button onclick="window.location.href = '/products'">Home</button>
+        <button onclick="window.location.href = '/products/create'">
+          Create
+        </button>
+      </div>
+    </header>
+    <main>
+      <div id="formCreateProduct">
+        <div>
+          <input
+            type="text"
+            name="nameProduct"
+            id="nameProduct"
+            placeholder="Điền tên tour"
+          /><br />
+          <input
+            type="text"
+            name="priceProduct"
+            id="priceProduct"
+            placeholder="Điền giá tour"
+          /><br />
+          <input
+            type="text"
+            name="imageProduct"
+            id="imageProduct"
+            placeholder="Điền hình ảnh tour"
+          /><br />
+          <button id="btnCreateProduct">Gửi</button>
+        </div>
+      </div>
+    </main>
+    <footer></footer>
+  </body>
+  <script>
+    const nameProduct = document.getElementById("nameProduct");
+    const priceProduct = document.getElementById("priceProduct");
+    const imageProduct = document.getElementById("imageProduct");
+    document
+      .getElementById("btnCreateProduct")
+      .addEventListener("click", () => {
+        fetch("http://localhost:3000/products/create", {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+          body: JSON.stringify({
+            name: nameProduct.value,
+            price: priceProduct.value,
+            image: imageProduct.value,
+          }),
+        })
+          .then((res) => res.json())
+          .then((json) => {
+            if (json == 200) {
+              window.location.href = "/products";
+            }
+          });
+      });
+  </script>
+</html>
