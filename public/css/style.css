@@ -84,4 +84,16 @@ main #formCreateProduct div button {
   color: #fafafa;
   border: none;
   cursor: pointer;
+}
+main #imgProduct {
+  width: 100%;
+  height: auto;
+}
+main #btnDeleteProduct, main #btnUpdateProduct {
+  margin: 10px;
+  padding: 10px;
+  background-color: red;
+  color: #fafafa;
+  cursor: pointer;
+  border: none;
 }/*# sourceMappingURL=style.css.map */

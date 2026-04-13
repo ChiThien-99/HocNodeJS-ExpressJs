@@ -88,4 +88,16 @@ main {
       }
     }
   }
+  #imgProduct{
+    width: 100%;
+    height: auto;
+  }
+  #btnDeleteProduct, #btnUpdateProduct{
+    margin: 10px;
+    padding: 10px;
+    background-color: red;
+    color: $colorSecondaryText;
+    cursor: pointer;
+    border: none;
+  }
 }

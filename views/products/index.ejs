@@ -19,7 +19,7 @@
     <main>
       <div id="product">
         <%products.forEach(item=>{%>
-        <div class="itemProduct">
+        <div class="itemProduct" onclick="window.location.href='/products/detail/<%=item.id%>'">
           <div><img src="<%=item.image%>" alt="<%=item.name%>" /></div>
           <div>
             <h2><%=item.name%></h2>

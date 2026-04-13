@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tạo sản phẩm</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <header>
+      <div>
+        <a onclick="window.location.href = '/'">IMZ.AI</a>
+      </div>
+      <div>
+        <button onclick="window.location.href = '/products'">Home</button>
+        <button onclick="window.location.href = '/products/create'">
+          Create
+        </button>
+      </div>
+    </header>
+    <main>
+      <p id="productId" style="display: none;"><%=product.id%></p>
+      <h2><%=product.name%></h2>
+      <p><%=product.price%></p>
+      <img src="<%=product.image%>" alt="imgProduct" id="imgProduct">
+      <button id="btnUpdateProduct" onclick="window.location.href='/products/create?id=<%=product.id%>'">Cập nhật tour</button>
+      <button id="btnDeleteProduct">Xóa tour</button>
+    </main>
+    <footer></footer>
+  </body>
+  <script>
+    const productId=document.getElementById("productId").innerHTML;
+    document.getElementById("btnDeleteProduct").addEventListener("click",()=>{
+        fetch(`http://localhost:3000/products/detail/${productId}`,{
+            method:"DELETE",
+            headers:{
+                "Content-type":"application/json;charset=UTF-8"
+            },
+        })
+        .then((res)=>res.json())
+        .then((json)=>{
+            if(json==200){
+                window.location.href="/products";
+            }
+        })
+    })
+  </script>
+</html>

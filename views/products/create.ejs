@@ -46,22 +46,45 @@
     <footer></footer>
   </body>
   <script>
+    const params=new Proxy(new URLSearchParams(window.location.search),{
+      get:(searchParams,prop)=>searchParams.get(prop),
+    });
+    const {id}=params;
     const nameProduct = document.getElementById("nameProduct");
     const priceProduct = document.getElementById("priceProduct");
     const imageProduct = document.getElementById("imageProduct");
+    const fetchDetailProductByApi=()=>{
+      fetch(`http://localhost:3000/api/products/detail/${id}`,{
+        method:"GET",
+        headers:{
+          "Content-type":"application/json; charset=UTF-8",
+        },
+      })
+      .then((res)=>res.json())
+      .then((data)=>{
+        if(data.id){
+          nameProduct.value=data.name,
+          priceProduct.value=data.price,
+          imageProduct.value=data.image
+        }
+      })
+    }
+    fetchDetailProductByApi();
     document
       .getElementById("btnCreateProduct")
       .addEventListener("click", () => {
-        fetch("http://localhost:3000/products/create", {
-          method: "POST",
-          headers: {
-            "Content-type": "application/json; charset=UTF-8",
-          },
-          body: JSON.stringify({
+        const body=JSON.stringify({
             name: nameProduct.value,
             price: priceProduct.value,
             image: imageProduct.value,
-          }),
+          });
+        if (id) {
+          fetch(`http://localhost:3000/products/create/${id}`, {
+          method: "PUT",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+          body,
         })
           .then((res) => res.json())
           .then((json) => {
@@ -69,6 +92,21 @@
               window.location.href = "/products";
             }
           });
+        } else {
+          fetch("http://localhost:3000/products/create", {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+          body,
+        })
+          .then((res) => res.json())
+          .then((json) => {
+            if (json == 200) {
+              window.location.href = "/products";
+            }
+          });
+        }
       });
   </script>
 </html>

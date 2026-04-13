@@ -38,7 +38,8 @@ exports.getAllProducts = (req, res) => {
 };
 exports.getProductsById = (req, res) => {
   let { id } = req.params;
-  res.json(`Đây là id:${id}`);
+  let product=products.find(item=>item.id==id);
+  res.render("products/detail",{product});
 };
 exports.createProducts = (req, res) => {
   res.render("products/create");
@@ -55,9 +56,40 @@ exports.postCreateProducts = (req, res) => {
     res.json("404");
   }
 };
+
+exports.getDetailProductByApi=(req,res)=>{
+  try {
+    let {id}=req.params;
+    let product=products.find(item=>item.id==id);
+    res.json(product);
+  } catch (error) {
+    res.json("404");
+  }
+  
+}
+
 exports.updateProducts = (req, res) => {
-  res.json("update");
+  try {
+    let {body}=req;
+    let {id}=req.params;
+    let index=products.findIndex(item=>item.id==id);
+    products[index].name=body.name;
+    products[index].price=body.price;
+    products[index].image=body.image;
+    res.json(200);
+  } catch (error) {
+    res.json("404");
+  }
+  
 };
 exports.deleteProducts = (req, res) => {
-  res.json("delete");
+  try {
+    let {id}=req.params;
+    products=products.filter(item=>item.id!==Number(id));
+    res.render("products/index",{products});
+    res.json(200);
+  } catch (error) {
+    res.json("404")
+  }
+  
 };
