@@ -3,7 +3,8 @@ const app = express();
 const port = 3000;
 const bodyParser = require("body-parser");
 const productsRouter = require("./modules/products/products.router");
-const connectDB=require("./database");
+const categoryRouter = require("./modules/category/category.router");
+const connectDB = require("./database");
 connectDB();
 
 app.set("view engine", "ejs");
@@ -13,6 +14,7 @@ app.use(express.static("public"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/", productsRouter);
+app.use("/", categoryRouter);
 app.get("/", (req, res) => {
   res.render("index");
 });
