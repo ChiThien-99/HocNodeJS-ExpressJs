@@ -39,6 +39,12 @@
             id="imageProduct"
             placeholder="Điền hình ảnh tour"
           /><br />
+          <input
+            type="text"
+            name="categoryProduct"
+            id="categoryProduct"
+            placeholder="Điền danh mục tour"
+          /><br />
           <button id="btnCreateProduct">Gửi</button>
         </div>
       </div>
@@ -53,6 +59,7 @@
     const nameProduct = document.getElementById("nameProduct");
     const priceProduct = document.getElementById("priceProduct");
     const imageProduct = document.getElementById("imageProduct");
+    const categoryProduct=document.getElementById("categoryProduct");
     const fetchDetailProductByApi=()=>{
       fetch(`http://localhost:3000/api/products/detail/${id}`,{
         method:"GET",
@@ -61,11 +68,13 @@
         },
       })
       .then((res)=>res.json())
-      .then((data)=>{
-        if(data.id){
+      .then(({data,message,code})=>{
+        console.log(data.category);
+        if(code==200){
           nameProduct.value=data.name,
           priceProduct.value=data.price,
-          imageProduct.value=data.image
+          imageProduct.value=data.image,
+          categoryProduct.value=data.category._id
         }
       })
     }
@@ -73,10 +82,12 @@
     document
       .getElementById("btnCreateProduct")
       .addEventListener("click", () => {
+        console.log(nameProduct.value);
         const body=JSON.stringify({
             name: nameProduct.value,
             price: priceProduct.value,
             image: imageProduct.value,
+            category: categoryProduct.value
           });
         if (id) {
           fetch(`http://localhost:3000/products/create/${id}`, {
@@ -87,8 +98,8 @@
           body,
         })
           .then((res) => res.json())
-          .then((json) => {
-            if (json == 200) {
+          .then(({data,message,code}) => {
+            if (code == 200) {
               window.location.href = "/products";
             }
           });
@@ -101,8 +112,8 @@
           body,
         })
           .then((res) => res.json())
-          .then((json) => {
-            if (json == 200) {
+          .then(({code}) => {
+            if (code == 200) {
               window.location.href = "/products";
             }
           });

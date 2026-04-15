@@ -4,5 +4,9 @@ const categorySchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  product:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"productEntity",
+  }
 });
 module.exports = mongoose.model("categoryEntity", categorySchema, "category");

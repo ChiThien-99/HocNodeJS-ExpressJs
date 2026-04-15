@@ -33,7 +33,7 @@
 const ResponseType = require("../../dto/response.type");
 const productEntity = require("../../Models/product.model");
 exports.getAllProducts = async (req, res) => {
-  let productList = await productEntity.find();
+  let productList = await productEntity.find().populate("category");
   res.render("products/index", {
     title: "Học NodeJs-ExpressJs",
     products: productList,
@@ -48,49 +48,57 @@ exports.createProducts = (req, res) => {
   res.render("products/create");
 };
 exports.postCreateProducts = async (req, res) => {
-  let productList = await productEntity.find();
   try {
-    let { body } = req;
-    console.log(body);
-    productList.push({
-      ...body,
+    let {name,price,image,category} = req.body;
+    let product=new productEntity({name,price,image,category});
+    await product.save();
+    res.json(new ResponseType(product).success());
+  } catch (error) {
+    res.json(new ResponseType(null).error());
+  }
+};
+
+exports.getDetailProductByApi = async (req, res) => {
+  try {
+    let { id } = req.params;
+    let product = await productEntity.findById(id).populate("category");
+    res.json(new ResponseType(product).success());
+  } catch (error) {
+    res.json(new ResponseType(null).error());
+  }
+};
+
+exports.updateProducts = async (req, res) => {
+  console.log(req.body);
+  try {
+    let body= req.body;
+    let { id } = req.params;
+    let updateProduct = await productEntity.findByIdAndUpdate(id,{
+      name:body.name,
+      price:body.price,
+      image:body.image,
+      category:body.category.id
+    },{
+      returnDocument: 'after',
+      runValidators:true,
     });
-    res.json(new ResponseType(200).success().data);
+    if(!updateProduct){
+      res.json(new ResponseType(null).error())
+    };
+    res.json(new ResponseType(updateProduct).success());
   } catch (error) {
-    res.json(new ResponseType(404).success().data);
+    res.json(new ResponseType(null).error());
   }
 };
-
-exports.getDetailProductByApi = (req, res) => {
+exports.deleteProducts = async (req, res) => {
   try {
     let { id } = req.params;
-    let product = products.find((item) => item.id == id);
-    res.json(product);
+    let deleteProduct= await productEntity.findByIdAndDelete(id).populate("category");
+    if(!deleteProduct){
+      res.json(new ResponseType(null).error())
+    }
+    res.json(new ResponseType(deleteProduct).success());
   } catch (error) {
-    res.json("404");
-  }
-};
-
-exports.updateProducts = (req, res) => {
-  try {
-    let { body } = req;
-    let { id } = req.params;
-    let index = products.findIndex((item) => item.id == id);
-    products[index].name = body.name;
-    products[index].price = body.price;
-    products[index].image = body.image;
-    res.json(200);
-  } catch (error) {
-    res.json("404");
-  }
-};
-exports.deleteProducts = (req, res) => {
-  try {
-    let { id } = req.params;
-    products = products.filter((item) => item.id !== Number(id));
-    res.render("products/index", { products });
-    res.json(200);
-  } catch (error) {
-    res.json("404");
+    res.json(new ResponseType(null).error());
   }
 };
